@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KandroidLab">
         <activity
+            android:name=".Lab6_4"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Lab6_2"
             android:exported="true">
             <intent-filter>
