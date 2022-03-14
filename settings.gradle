@@ -16,3 +16,4 @@ rootProject.name = "KandroidLab"
 include ':app'
 include ':part7'
 include ':part8'
+include ':part10'
