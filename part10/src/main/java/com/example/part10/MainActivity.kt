@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
     val items=arrayOf<String>("기본 알람 소리","Argon","Awaken","Bounce","Carbon")
     val c = Calendar.getInstance()
 
-    /*
-    val alertDialog=AlertDialog.Builder(this)
 
-    }
-*/
+   // val alertDialog=AlertDialog.Builder(this)
+
+
+
     val customButtonClick={dialoginterface:DialogInterface,i:Int->
         showToast("custom dialog 확인 click.....")
     }
