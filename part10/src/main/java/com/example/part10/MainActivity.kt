@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     val c = Calendar.getInstance()
 
 
-   // val alertDialog=AlertDialog.Builder(this)
+  //var alertDialog=AlertDialog.Builder(this)
 
 
 
@@ -41,12 +41,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        var alertDialog=AlertDialog.Builder(this)
+
         val binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Log.d("잘 됬습니다","1")
 
         binding.btnAlert.setOnClickListener {
-            AlertDialog.Builder(this).run{
+           // AlertDialog.Builder(this).run{
+            alertDialog.run{
                 setTitle("알림")
                 setIcon(android.R.drawable.ic_dialog_info)
                 setMessage("정말 종료하시겠습니까?")

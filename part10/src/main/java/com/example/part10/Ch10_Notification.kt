@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.app.NotificationCompat
 import androidx.core.app.RemoteInput
 import com.example.part10.databinding.ActivityCh10NotificationBinding
@@ -20,8 +21,10 @@ import java.util.jar.Attributes
 class Ch10_Notification : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val binding=ActivityCh10NotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         binding.notificationButton.setOnClickListener {
             val manager=getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val builder:NotificationCompat.Builder
