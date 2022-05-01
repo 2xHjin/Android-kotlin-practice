@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
         binding.btnCustom.setOnClickListener {
             Log.d("잘 됬습니다","3")
 
