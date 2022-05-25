@@ -18,13 +18,17 @@ class Ch11_RecyclerView : AppCompatActivity() {
         val binding=ActivityCh11RecyclerViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val datas= mutableListOf<String>()
-        for(i in 1..10){
-            datas.add("Item $i")
+        val dataarr= mutableListOf<String>()
+        for(i in 0..9){
+            dataarr.add("Item $i")
+            Log.d("kang","dataarr: $i")
         }
         binding.recyclerView.layoutManager=LinearLayoutManager(this)
-        binding.recyclerView.adapter=MyAdapter(datas)
-        binding.recyclerView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
+       // val adapter=MyAdapter(dataarr)
+        binding.recyclerView.adapter=MyAdapter(dataarr)
+      //  binding.recyclerView.addItemDecoration(DividerItemDecoration(this,
+        //    LinearLayoutManager.VERTICAL))
+       // (binding.recyclerView.adapter as MyAdapter).notifyDataSetChanged()
     }
 
     class MyViewHolder(val binding: ItemMainBinding): RecyclerView.ViewHolder(binding.root)
@@ -39,7 +43,10 @@ class Ch11_RecyclerView : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             Log.d("kang","onBindViewHolder : $position")
+            Log.d("kang","onBindViewHolder : ${datas.size}")
+
             val binding=(holder as MyViewHolder).binding
+
             binding.itemData.text=datas[position]
             binding.itemRoot.setOnClickListener{
                 Log.d("kang","item root click : $position")
