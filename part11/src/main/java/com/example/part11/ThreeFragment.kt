@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.ch11_jetpack.databinding.FragmentThreeBinding
 import com.example.part11.databinding.FragmentThreeBinding
 
 class ThreeFragment : Fragment() {
