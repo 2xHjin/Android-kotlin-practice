@@ -19,7 +19,7 @@ import com.example.part11.databinding.FragmentOneBinding
 import com.example.part11.databinding.ItemRecyclerviewBinding
 
 class MyViewHolder2(val binding:ItemRecyclerviewBinding):
-        RecyclerView.ViewHolder(binding.root)
+    RecyclerView.ViewHolder(binding.root)
 
 class MyAdapter2(val datas:MutableList<String>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -46,7 +46,7 @@ class MyDecoration(val context: Context):RecyclerView.ItemDecoration(){
         val height=parent.height
 
         val dr: Drawable?=ResourcesCompat.getDrawable(context.getResources(),
-        R.drawable.kbo,null)
+            R.drawable.kbo,null)
 
         val drWidth=dr?.intrinsicWidth
         val drHeight=dr?.intrinsicHeight
@@ -77,7 +77,7 @@ class MyDecoration(val context: Context):RecyclerView.ItemDecoration(){
         else
             outRect.set(10,10,10,0)
 
-        view.setBackgroundColor(Color.parseColor("#28AFF"))
+        view.setBackgroundColor(Color.parseColor("#28A0FF"))
         ViewCompat.setElevation(view,20.0f)
     }
 }
@@ -96,10 +96,10 @@ class OneFragment : Fragment() {
         }
 
         val layoutManager= LinearLayoutManager(activity)
-        binding.recyclerView.layoutManager=layoutManager
+        binding.recyclerView2.layoutManager=layoutManager
         val adapter=MyAdapter2(datas)
-        binding.recyclerView.adapter=adapter
-        binding.recyclerView.addItemDecoration(MyDecoration(activity as Context))
+        binding.recyclerView2.adapter=adapter
+        binding.recyclerView2.addItemDecoration(MyDecoration(activity as Context))
 
         return binding.root
     }

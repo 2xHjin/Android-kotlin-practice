@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -18,10 +18,10 @@ class MainActivity : AppCompatActivity() {
 
     class MyFragmentPagerAdapter(activity: FragmentActivity):
         FragmentStateAdapter(activity){
-            val fragments:List<Fragment>
-            init{
-                fragments=listOf(OneFragment(),TwoFragment(),ThreeFragment())
-            }
+        val fragments:List<Fragment>
+        init{
+            fragments=listOf(OneFragment(),TwoFragment(),ThreeFragment())
+        }
 
         override fun getItemCount(): Int =fragments.size
 
@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val binding =ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+        Log.d("kkang","시작")
 
         toggle=ActionBarDrawerToggle(this,binding.drawer,R.string.drawer_opened,
         R.string.drawer_closed)
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.d("kang","search text : $query")
+                Log.d("kkang","search text : $query")
 
                 return true
             }
