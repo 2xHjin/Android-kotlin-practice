@@ -68,6 +68,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(toggle.onOptionsItemSelected(item)){
+            Log.d("kkang","토글 눌림")
+
             return true
         }
         return super.onOptionsItemSelected(item)
