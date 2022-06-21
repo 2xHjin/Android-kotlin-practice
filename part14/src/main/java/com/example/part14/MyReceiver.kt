@@ -14,10 +14,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 
 class MyReceiver: BroadcastReceiver() {
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent) {
 
         Log.d("kkang","MyReceiver....")
-        val manager=context!!.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+        val manager=context.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
         val builder: NotificationCompat.Builder
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
@@ -39,6 +39,7 @@ class MyReceiver: BroadcastReceiver() {
                 enableVibration(true)
             }
             manager.createNotificationChannel(channel)
+
             builder=NotificationCompat.Builder(context,channelId)
         }
         else{
