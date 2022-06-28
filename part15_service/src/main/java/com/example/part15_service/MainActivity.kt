@@ -1,11 +1,98 @@
 package com.example.part15_service
 
+import android.annotation.TargetApi
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.part15_service.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMainBinding
+    var connectionMode="none"
+
+    //Messenger......
+
+    //aidl...........
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding=ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        //messenger..........
+        onCreateMessengerService()
+
+        //aidl................
+        onCreateAIDLService()
+
+        //jobscheduler......................
+        onCreateJobScheduler()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(connectionMode==="messenger"){
+            onStopMessengerService()
+        }
+        else if(connectionMode==="aidl"){
+            onStopAIDLService()
+        }
+        connectionMode="none"
+        changeViewEnable()
+    }
+
+    fun changeViewEnable()=when (connectionMode){
+        "messenger"->{
+            binding.messengerPlay.isEnabled=false
+            binding.aidlPlay.isEnabled=false
+            binding.messengerStop.isEnabled=true
+            binding.aidlStop.isEnabled=false
+        }
+        "aidl"->{
+            binding.messengerPlay.isEnabled=false
+            binding.aidlPlay.isEnabled=false
+            binding.messengerStop.isEnabled=false
+            binding.aidlStop.isEnabled=true
+
+        }
+        else->{
+            binding.messengerPlay.isEnabled=true
+            binding.aidlPlay.isEnabled=true
+            binding.messengerStop.isEnabled=false
+            binding.aidlStop.isEnabled=false
+
+            binding.messengerProgress.progress=0
+            binding.aidlProgress.progress=0
+        }
+    }
+
+    //messenger handler ......................
+
+    //messenger connection ....................
+
+
+
+    private fun onCreateMessengerService() {
+
+    }
+    private fun onStopMessengerService() {
+
+    }
+
+    //aidl connection .......................
+
+
+    private fun onCreateAIDLService() {
+
+    }
+    private fun onStopAIDLService() {
+
+    }
+
+    //JobScheduler
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun onCreateJobScheduler(){
+
     }
 }
