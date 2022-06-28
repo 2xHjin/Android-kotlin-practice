@@ -18,6 +18,15 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".MyAIDLService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="ACTION_SERVICE_AIDL"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

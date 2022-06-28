@@ -1,18 +1,31 @@
 package com.example.part15_service
 
 import android.annotation.TargetApi
-import android.os.Build
-import android.os.Bundle
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
+import android.os.*
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.part15_outer.MyAIDLInterface
 import com.example.part15_service.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var connectionMode="none"
 
     //Messenger......
+    lateinit var messenger:Messenger
+    lateinit var replyMessenger: Messenger
+    var messengerJob: Job?=null
+
 
     //aidl...........
+    var aidlService: MyAIDLInterface?=null
+    var aidlJob:Job?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,19 +81,103 @@ class MainActivity : AppCompatActivity() {
     }
 
     //messenger handler ......................
+    inner class HandlerReplyMsg: Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when(msg.what){
+                10->{
+                    val bundle=msg.obj as Bundle
+                    bundle.getInt("duration")?.let{
+                        when{
+                            it>0->{
+                                binding.messengerProgress.max=it
+                                val backgroundScope= CoroutineScope(Dispatchers.Default+Job())
+                                messengerJob=backgroundScope.launch{
+                                    while(binding.messengerProgress.progress<
+                                        binding.messengerProgress.max){
+                                        delay(1000)
+                                        binding.messengerProgress.incrementProgressBy(1000)
+
+                                    }
+                                }
+                                changeViewEnable()
+                            }
+                            else->{
+                                connectionMode="none"
+                                unbindService(messengerConnection)
+                                changeViewEnable()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     //messenger connection ....................
+    val messengerConnection: ServiceConnection = object : ServiceConnection{
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.d("kkang","onServiceConnected..")
+            messenger= Messenger(service)
+            val msg=Message()
+            msg.replyTo=replyMessenger
+            msg.what=10
+            messenger.send(msg)
+            connectionMode="messenger"
+        }
 
-
-
-    private fun onCreateMessengerService() {
-
+        override fun onServiceDisconnected(name: ComponentName?) {
+            Log.d("kkang","onServiceDisconnected..")
+        }
     }
-    private fun onStopMessengerService() {
 
+
+    private fun onCreateMessengerService(){
+        replyMessenger=Messenger(HandlerReplyMsg())
+        binding.messengerPlay.setOnClickListener{
+            val intent= Intent("ACTION_SERVICE_Messenger")
+            intent.setPackage("com.example.part15_outer")
+            bindService(intent,messengerConnection, Context.BIND_AUTO_CREATE)
+        }
+
+        binding.messengerStop.setOnClickListener {
+            val msg=Message()
+            msg.what=20
+            messenger.send(msg)
+            unbindService(messengerConnection)
+            messengerJob?.cancel()
+            connectionMode="none"
+            changeViewEnable()
+        }
+    }
+    private fun onStopMessengerService(){
+        val msg=Message()
+        msg.what=20
+        messenger.send(msg)
+        unbindService(messengerConnection)
     }
 
     //aidl connection .......................
+    val aidlConnection:ServiceConnection= object : ServiceConnection{
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            aidlService=MyAIDLInterface.Stub.asInterface(service)
+            aidlService!!.start()
+            binding.aidlProgress.max=aidlService!!.maxDuration
+            val backgroundScope=CoroutineScope(Dispatchers.Default+Job())
+            aidlJob=backgroundScope.launch {
+                while(binding.aidlProgress.progress<binding.aidlProgress.max){
+                    delay(1000)
+                    binding.aidlProgress.incrementProgressBy(1000)
+                }
+            }
+            connectionMode="aidl"
+            changeViewEnable()
+        }
+
+        override fun onServiceDisconnected(p0: ComponentName?) {
+            aidlService=null
+        }
+    }
 
 
     private fun onCreateAIDLService() {

@@ -20,4 +20,7 @@
         </activity>
     </application>
 
+    <queries>
+        <package android:name="com.example.part15_outer"/>
+    </queries>
 </manifest>
