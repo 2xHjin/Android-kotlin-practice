@@ -1,6 +1,8 @@
 package com.example.part15_service
 
 import android.annotation.TargetApi
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -181,15 +183,31 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun onCreateAIDLService() {
-
+        binding.aidlPlay.setOnClickListener {
+            val intent=Intent("ACTION_SERVICE_AIDL")
+            intent.setPackage("com.example.part15_outer")
+            bindService(intent,aidlConnection,Context.BIND_AUTO_CREATE)
+        }
+        binding.aidlStop.setOnClickListener {
+            aidlService!!.stop()
+            unbindService(aidlConnection)
+            aidlJob?.cancel()
+            connectionMode="none"
+            changeViewEnable()
+        }
     }
-    private fun onStopAIDLService() {
 
+    private fun onStopAIDLService() {
+        unbindService(aidlConnection)
     }
 
     //JobScheduler
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun onCreateJobScheduler(){
-
+        var jobScheduler:JobScheduler?=getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val builder=JobInfo.Builder(1,ComponentName(this,MyJobService::class.java))
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+        val jobInfo=builder.build()
+        jobScheduler!!.schedule(jobInfo)
     }
 }
