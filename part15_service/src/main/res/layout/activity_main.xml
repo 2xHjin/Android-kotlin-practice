@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#28353b">
-
     <ImageView
         android:id="@+id/messengerPlay"
         android:layout_width="wrap_content"
@@ -109,4 +108,5 @@
         android:layout_marginBottom="24dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
+
 </RelativeLayout>
