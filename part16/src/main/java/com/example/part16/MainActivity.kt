@@ -1,19 +1,12 @@
 package com.example.part16
 
-import android.app.Activity
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
-import androidx.core.content.FileProvider
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.part16.databinding.ActivityMainBinding
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,6 +20,33 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //gallery request launcher..................
+        val requestGalleryLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult())
+        {
+            try{
+                val calRatio=calculateInSampleSize(
+                    it.data!!.data!!,
+                    resources.getDimensionPixelSize(R.dimen.imgSize),
+                    resources.getDimensionPixelSize(R.dimen.imgSize)
+                )
+                val option=BitmapFactory.Options()
+                option.inSampleSize=calRatio
+
+                var inputStream=contentResolver.openInputStream(it.data!!.data!!)
+                val bitmap=BitmapFactory.decodeStream(inputStream,null,option)
+                inputStream!!.close()
+
+                inputStream=null
+
+                bitmap.let{
+                    binding.userImageView.setImageBitmap(bitmap)
+                }?:let{
+                    Log.d("kkang","bitmap null")
+                }
+            }catch(e:Exception){
+                e.printStackTrace()
+            }
+        }
 
         binding.galleryButton.setOnClickListener {
             //gallery app........................
