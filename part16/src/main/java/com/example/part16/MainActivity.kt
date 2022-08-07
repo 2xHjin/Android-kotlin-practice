@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.galleryButton.setOnClickListener {
             //gallery app........................
             
+            
         }
 
         //camera request launcher.................
