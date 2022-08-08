@@ -1,12 +1,15 @@
 package com.example.part16
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.part16.databinding.ActivityMainBinding
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,18 +53,37 @@ class MainActivity : AppCompatActivity() {
 
         binding.galleryButton.setOnClickListener {
             //gallery app........................
-            
-            
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type="image/*"
+            requestGalleryLauncher.launch(intent)
         }
 
         //camera request launcher.................
-        
+        val requestCameraFileLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        )
+        {
+            val calRatio=calculateInSampleSize(
+                Uri.fromFile(File(filePath)),
+                resources.getDimensionPixelSize(R.dimen.imgSize),
+                resources.getDimensionPixelSize(R.dimen.imgSize)
+            )
+            val option=BitmapFactory.Options()
+            option.inSampleSize=calRatio
+            val bitmap=BitmapFactory.decodeFile(filePath,option)
+            bitmap?.let{
+                binding.userImageView.setImageBitmap(bitmap)
+            }
+        }
+
         binding.cameraButton.setOnClickListener {
             //camera app......................
             //파일 준비...............
             
         }
     }
+
+
 
     private fun calculateInSampleSize(fileUri: Uri, reqWidth: Int, reqHeight: Int): Int {
         val options = BitmapFactory.Options()
