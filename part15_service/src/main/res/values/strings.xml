@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">part15_service</string>
+    <string name="mp_name">메신저 재생</string>
+    <string name="ms_name">메신저 정지</string>
+
+    <string name="ap_name">aidl 재생</string>
+    <string name="as_name">aidl 정지</string>
 </resources>

@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/messengerPlay"
+        android:contentDescription="@string/mp_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play"
@@ -31,6 +32,7 @@
         />
     <ImageView
         android:id="@+id/messengerStop"
+        android:contentDescription="@string/ms_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_stop"
@@ -59,6 +61,8 @@
 
     <ImageView
         android:id="@+id/aidlPlay"
+        android:contentDescription="@string/ap_name"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_play"
@@ -84,6 +88,8 @@
         />
     <ImageView
         android:id="@+id/aidlStop"
+        android:contentDescription="@string/as_name"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_stop"
