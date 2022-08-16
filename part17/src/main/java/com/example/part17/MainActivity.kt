@@ -8,10 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ch17_database.MyAdapter
-import com.example.part17.AddActivity
-import com.example.part17.R
-import com.example.part17.SettingActivity
 import com.example.part17.databinding.ActivityMainBinding
 
 
@@ -42,7 +38,14 @@ class MainActivity : AppCompatActivity() {
         datas= mutableListOf<String>()
 
         //add......................
-
+        val db=DBHelper(this).readableDatabase
+        val cursor=db.rawQuery("select*from TODO_TB",null)
+        cursor.run{
+            while(moveToNext()){
+                datas?.add(cursor.getString(1))
+            }
+        }
+        db.close()
 
         val layoutManager = LinearLayoutManager(this)
         binding.mainRecyclerView.layoutManager=layoutManager

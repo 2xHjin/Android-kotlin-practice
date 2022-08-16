@@ -103,9 +103,10 @@
         android:id="@+id/aidlProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_above="@id/aidlTitle"
-        android:layout_marginBottom="24dp"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="24dp" />
 </RelativeLayout>
