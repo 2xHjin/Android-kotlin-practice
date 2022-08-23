@@ -14,5 +14,4 @@ interface NetworkService {
         @Query("page")page:Long,
         @Query("pageSize")pageSize:Int
     ): Call<PageListModel>
-
 }
