@@ -1,6 +1,9 @@
 package com.example.part19
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -10,11 +13,15 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
 
 class MainActivity : AppCompatActivity() , GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
@@ -47,18 +54,19 @@ GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
             .build()
 
         if(ContextCompat.checkSelfPermission(
-                this,android.Manifest.permission.ACCESS_FINE_LOCATION)!==
+                this,Manifest.permission.ACCESS_FINE_LOCATION)!==
                     PackageManager.PERMISSION_GRANTED||
             ContextCompat.checkSelfPermission(
-                this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!==
+                this,Manifest.permission.WRITE_EXTERNAL_STORAGE)!==
             PackageManager.PERMISSION_GRANTED||
             ContextCompat.checkSelfPermission(
-                this,android.Manifest.permission.ACCESS_NETWORK_STATE)!==
+                this,Manifest.permission.ACCESS_NETWORK_STATE)!==
             PackageManager.PERMISSION_GRANTED){
             requestPermissionLauncher.launch(
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.ACCESS_NETWORK_STATE
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_NETWORK_STATE
                 )
             )
         }else{
@@ -89,13 +97,44 @@ GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
             .zoom(16f)
             .build()
 
-        
+        googleMap!!.moveCamera(CameraUpdateFactory.newCameraPosition(position))
+
+        val markerOptions=MarkerOptions()
+        markerOptions.icon(
+            BitmapDescriptorFactory.defaultMarker(
+                BitmapDescriptorFactory.HUE_AZURE
+            )
+        )
+        markerOptions.position(latLng)
+        markerOptions.title("MyLocation")
+
+        googleMap?.addMarker(markerOptions)
     }
 
+    @SuppressLint("MissingPermission")
     override fun onConnected(p0: Bundle?) {
+        if (ContextCompat.checkSelfPermission(
+                this@MainActivity,
+               Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            providerClient.lastLocation.addOnSuccessListener(
+                this@MainActivity,
+                object : OnSuccessListener<Location> {
+                    override fun onSuccess(location: Location?) {
+                        location?.let {
+                            val latitude = location.latitude
+                            val longitude = location.longitude
 
+                            moveMap(latitude, longitude)
+                        }
+                    }
+                }
+            )
+            apiClient.disconnect()
+
+        }
     }
-
     override fun onConnectionSuspended(p0: Int) {
         TODO("Not yet implemented")
     }
@@ -105,6 +144,7 @@ GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
     }
 
     override fun onMapReady(p0: GoogleMap?) {
-        TODO("Not yet implemented")
+        googleMap=p0
     }
 }
+
