@@ -82,9 +82,9 @@ GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode==100&&
-                grantResults[0]==PackageManager.PERMISSION_GRANTED&&
-            grantResults[1]==PackageManager.PERMISSION_GRANTED&&
-            grantResults[2]==PackageManager.PERMISSION_GRANTED)
+                grantResults[0]===PackageManager.PERMISSION_GRANTED&&
+            grantResults[1]===PackageManager.PERMISSION_GRANTED&&
+            grantResults[2]===PackageManager.PERMISSION_GRANTED)
         {
             apiClient.connect()
         }
@@ -116,7 +116,7 @@ GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(
                 this@MainActivity,
                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+            ) === PackageManager.PERMISSION_GRANTED
         ) {
             providerClient.lastLocation.addOnSuccessListener(
                 this@MainActivity,
