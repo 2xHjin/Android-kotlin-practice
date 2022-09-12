@@ -29,6 +29,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="24dp"
-        android:layout_marginRight="24dp"/>
+        android:layout_marginRight="24dp"
+        android:contentDescription="하고 싶은 설명"
+       />
 
 </RelativeLayout>
