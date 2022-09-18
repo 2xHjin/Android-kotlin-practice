@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         setSupportActionBar(binding.toolbar)
         toggle= ActionBarDrawerToggle(this,binding.drawer,R.string.drawer_opened,
         R.string.drawer_closed)
